@@ -26,6 +26,21 @@ namespace api.Repository
             return stockModel;
         }
 
+        public async Task<Stock?> DeleteAsync(string companyname)
+        {
+            var stockModel = await _context.Stocks.FirstOrDefaultAsync(x => x.CompanyName == companyname);
+
+            if (stockModel == null)
+            {
+                return null;
+            }
+
+            _context.Stocks.Remove(stockModel);
+            await _context.SaveChangesAsync();
+
+            return stockModel;
+        }
+
         public async Task<List<Stock>> GetAllAsync()
         {
             return await _context.Stocks.Include(c => c.Comments).ToListAsync();

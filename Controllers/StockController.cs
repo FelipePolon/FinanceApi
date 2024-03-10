@@ -81,5 +81,23 @@ namespace api.Controllers
 
             return Ok(stockModel.ToStockDto()); 
         }
+
+        [HttpDelete]
+        [Route("{companyname}")]
+        public async Task<IActionResult> Delete([FromRoute] string companyname)
+        {
+            if(!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var stockModel = await _stockRepo.DeleteAsync(companyname);
+
+            if (stockModel == null)
+            {
+                return NotFound();
+            }
+
+            return NoContent();
+    
+        }
     }
 }
