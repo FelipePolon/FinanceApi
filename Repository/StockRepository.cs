@@ -19,6 +19,13 @@ namespace api.Repository
             _context = context;
         }
 
+        public async Task<Stock?> CreateASync(Stock stockModel)
+        {
+            await _context.Stocks.AddAsync(stockModel);
+            await _context.SaveChangesAsync();
+            return stockModel;
+        }
+
         public async Task<List<Stock>> GetAllAsync()
         {
             return await _context.Stocks.Include(c => c.Comments).ToListAsync();

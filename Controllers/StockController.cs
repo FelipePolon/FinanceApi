@@ -52,5 +52,17 @@ namespace api.Controllers
             return Ok(stock.ToStockDto());
         }
 
+        [HttpPost]
+        public async Task<IActionResult> Create([FromBody] CreateStockRequestDto stockDto)
+        {
+            if(!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var stockModel = stockDto.ToStockFromCreateDTO();
+
+            await _stockRepo.CreateASync(stockModel);
+
+            return CreatedAtAction(nameof(GetById), new {id = stockModel.Id}, stockModel.ToStockDto());
+        }
     }
 }

@@ -13,5 +13,6 @@ namespace api.Interfaces
 
         Task<Stock?> GetByIdAsync(int id);
 
+        Task<Stock?> CreateASync(Stock stockModel);
     }
 }
