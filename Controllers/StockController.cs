@@ -64,5 +64,22 @@ namespace api.Controllers
 
             return CreatedAtAction(nameof(GetById), new {id = stockModel.Id}, stockModel.ToStockDto());
         }
+
+        [HttpPut]
+        [Route("{id:int}")]
+        public async Task<IActionResult> Update([FromRoute] int id, [FromBody] UpdateStockRequestDto updateDto)
+        {
+            if(!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var stockModel = await _stockRepo.UpdateAsync(id, updateDto);
+
+            if (stockModel == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(stockModel.ToStockDto()); 
+        }
     }
 }
