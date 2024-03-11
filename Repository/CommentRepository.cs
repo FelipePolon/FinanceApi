@@ -20,6 +20,14 @@ namespace api.Repository
             _context = context;
         }
 
+        public async Task<Comment> CreateAsync(Comment commentModel)
+        {
+            await _context.Comments.AddAsync(commentModel);
+            await _context.SaveChangesAsync();
+            return commentModel;
+
+        }
+
         public async Task<List<Comment>> GetAllAsync()
         {
             return await _context.Comments.ToListAsync();
@@ -28,6 +36,11 @@ namespace api.Repository
         public async Task<Comment?> GetByIdAsync(int id)
         {
             return await _context.Comments.FindAsync(id);
+        }
+
+        public Task<bool> SotckExists(int id)
+        {
+            return _context.Stocks.AnyAsync(s => s.Id == id);
         }
 
     }

@@ -52,6 +52,11 @@ namespace api.Repository
 
         }
 
+        public Task<bool> SotckExists(int id)
+        {
+            return _context.Stocks.AnyAsync( s => s.Id == id);
+        }
+
         public async Task<Stock?> UpdateAsync(int id, UpdateStockRequestDto stockDto)
         {
            var stockModel = await _context.Stocks.FirstOrDefaultAsync(x => x.Id == id);
